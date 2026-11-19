@@ -61,11 +61,11 @@ function Header() {
     void supabase.auth.getUser().then(({ data }) => setSignedIn(Boolean(data.user)));
   }, []);
   const links = [
-    ["Services", "#services"],
-    ["Rates & charges", "#rates"],
-    ["How it works", "#how"],
-    ["Contact", "#contact"],
-  ];
+    ["Services", "/services"],
+    ["Rates & charges", "/rates"],
+    ["How it works", "/how"],
+    ["Contact", "/contact"],
+  ] as const;
   return (
     <header className="sticky top-0 z-40 border-b border-border bg-background/90 backdrop-blur">
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-5">
@@ -76,10 +76,10 @@ function Header() {
           </span>
         </a>
         <nav className="hidden gap-7 text-sm font-medium text-foreground md:flex">
-          {links.map(([l, h]) => (
-            <a key={h} href={h} className="hover:text-brand-red">
-              {l}
-            </a>
+          {links.map(([label, to]) => (
+            <Link key={to} to={to} className="hover:text-brand-red">
+              {label}
+            </Link>
           ))}
         </nav>
         <div className="hidden items-center gap-5 md:flex">
@@ -118,10 +118,15 @@ function Header() {
       </div>
       {open && (
         <div className="border-t border-border bg-background px-5 py-4 md:hidden">
-          {links.map(([l, h]) => (
-            <a key={h} href={h} onClick={() => setOpen(false)} className="block py-2 font-medium">
-              {l}
-            </a>
+          {links.map(([label, to]) => (
+            <Link
+              key={to}
+              to={to}
+              onClick={() => setOpen(false)}
+              className="block py-2 font-medium"
+            >
+              {label}
+            </Link>
           ))}
           <Link
             to={signedIn ? "/account" : "/staff-login"}
@@ -202,12 +207,12 @@ function Index() {
               cash-in and cash-out too.
             </p>
             <div className="mt-7 flex flex-wrap gap-3">
-              <a
-                href="#rates"
+              <Link
+                to="/rates"
                 className="inline-flex items-center gap-2 rounded-full bg-brand-red px-5 py-3 font-bold text-primary-foreground"
               >
                 See today&apos;s rates <ArrowRight className="h-4 w-4" />
-              </a>
+              </Link>
               <a
                 href={WA}
                 className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-5 py-3 font-bold text-navy"
@@ -293,91 +298,6 @@ function Index() {
                 </a>
               </div>
             )}
-          </div>
-        </div>
-      </section>
-
-      <section id="rates" className="mx-auto max-w-6xl px-5 py-12">
-        <Eyebrow c="Today’s rates" />
-        <div className="mt-4 grid gap-4 md:grid-cols-3">
-          {[
-            ["USD → ZAR (EFT)", "Request a rate"],
-            ["ZAR → USD (Collection)", "Request a rate"],
-            ["Instant EFT charge", "Request a quote"],
-          ].map(([title, detail]) => (
-            <div key={title} className="rounded-2xl border border-border p-5">
-              <p className="font-bold text-navy">{title}</p>
-              <p className="mt-2 text-sm text-muted-foreground">{detail}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <section id="services" className="mx-auto max-w-6xl px-5 py-16">
-        <Eyebrow c="What we do" />
-        <h2 className="mt-2 max-w-2xl text-3xl font-extrabold text-navy-deep">
-          One trusted counter for both sides of the border.
-        </h2>
-        <div className="mt-8 grid gap-4 md:grid-cols-3">
-          {services.map(([Icon, title, description]) => (
-            <article key={title} className="rounded-2xl border border-border bg-card p-6 shadow-sm">
-              <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-secondary text-brand-red">
-                <Icon className="h-5 w-5" />
-              </div>
-              <h3 className="mt-4 text-lg font-bold text-navy">{title}</h3>
-              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{description}</p>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      <section id="how" className="bg-navy py-16 text-primary-foreground">
-        <div className="mx-auto max-w-6xl px-5">
-          <Eyebrow c="How it works" />
-          <div className="mt-7 grid gap-6 md:grid-cols-4">
-            {[
-              ["1", "Request", "Send your transfer details."],
-              ["2", "Confirm", "We confirm the rate and separate charges."],
-              ["3", "Pay", "Pay USD cash or EcoCash."],
-              ["4", "Complete", "We transfer and confirm payment."],
-            ].map(([n, title, text]) => (
-              <div key={n}>
-                <div className="flex h-9 w-9 items-center justify-center rounded-full bg-brand-red font-bold">
-                  {n}
-                </div>
-                <h3 className="mt-3 font-bold">{title}</h3>
-                <p className="mt-1 text-sm opacity-70">{text}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section id="contact" className="mx-auto max-w-6xl px-5 py-16">
-        <div className="grid gap-6 rounded-3xl bg-secondary p-6 md:grid-cols-2 md:p-10">
-          <div>
-            <Eyebrow c="Contact" />
-            <h2 className="mt-2 text-3xl font-extrabold text-navy">Talk to a real person.</h2>
-            <p className="mt-3 text-muted-foreground">Mon–Sat · 08:00–18:00 (CAT)</p>
-          </div>
-          <div className="grid gap-3 sm:grid-cols-2">
-            <a href={WA} className="flex items-center gap-3 rounded-xl bg-card p-4 text-navy">
-              <MessageCircle className="h-6 w-6" />
-              <div>
-                <p className="text-sm text-muted-foreground">WhatsApp us</p>
-                <p className="font-bold">{PHONE}</p>
-              </div>
-            </a>
-            <a
-              href="tel:+263786439800"
-              className="flex items-center gap-3 rounded-xl border border-border p-4 text-navy"
-            >
-              <Phone className="h-6 w-6" />
-              <div>
-                <p className="text-sm text-muted-foreground">Call us</p>
-                <p className="font-bold">{PHONE}</p>
-              </div>
-            </a>
           </div>
         </div>
       </section>
