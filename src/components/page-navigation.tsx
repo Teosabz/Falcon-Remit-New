@@ -1,8 +1,10 @@
-import { Link, useRouter } from "@tanstack/react-router";
+import { Link, useRouter, useRouterState } from "@tanstack/react-router";
 import { ArrowLeft, Home } from "lucide-react";
 import { Button } from "@/components/ui/button";
 export function PageNavigation() {
   const router = useRouter();
+  const pathname = useRouterState({ select: (state) => state.location.pathname });
+  if (pathname === "/") return null;
   return (
     <nav aria-label="Page navigation" className="mx-auto flex max-w-6xl gap-2 px-4 py-3">
       <Button
