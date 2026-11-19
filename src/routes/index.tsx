@@ -382,9 +382,6 @@ function Index() {
         </div>
       </section>
 
-      <footer className="border-t border-border py-6 text-center text-sm text-muted-foreground">
-        Powered by Forex Remit
-      </footer>
       <a
         href={WA}
         aria-label="Chat with Falcon Remit on WhatsApp"

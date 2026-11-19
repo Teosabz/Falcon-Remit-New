@@ -55,6 +55,10 @@ function StaffLogin() {
         <h1 className="text-2xl font-extrabold text-navy">
           {forgot ? "Reset your password" : signup ? "Create staff account" : "Staff sign in"}
         </h1>
+        <p className="mb-4 text-sm leading-relaxed text-muted-foreground">
+          Staff access: view and reply to customer quote requests. Account roles and platform
+          settings are only available through administrator login.
+        </p>
         <form
           className="mt-6 space-y-5"
           onSubmit={async (event) => {

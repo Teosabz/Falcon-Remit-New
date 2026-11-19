@@ -45,6 +45,10 @@ function AdminLogin() {
           Restricted area
         </p>
         <h1 className="text-2xl font-extrabold">Administrator sign in</h1>
+        <p className="mb-4 text-sm leading-relaxed text-muted-foreground">
+          Administrator access: manage verified accounts, grant staff or admin roles, and view
+          platform account details.
+        </p>
         <form
           className="mt-6 space-y-5"
           onSubmit={async (event) => {
